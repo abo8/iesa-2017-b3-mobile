@@ -25,6 +25,9 @@
     <feature name="NetworkStatus">
         <param name="ios-package" value="CDVConnection" />
     </feature>
+    <feature name="Contacts">
+        <param name="ios-package" value="CDVContacts" />
+    </feature>
     <name>aboapp</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
