@@ -31,10 +31,10 @@ var app = {
         
         this.receivedEvent('deviceready');
         
-        //date
+        // Date
         document.getElementById('timestamp').innerHTML = new Date();
         
-        //device
+        // Device
         document.getElementById('deviceapi').innerHTML = device.cordova;
         
         // Type de connexion
@@ -50,36 +50,54 @@ var app = {
         states[Connection.NONE]     = 'No network connection';
         alert('Connection type: ' + states[networkState]);
         
+        // Contact
         function onSuccess(contacts) {
             alert('Found ' + contacts.length + ' contacts.');
         };
-        
         function onError(contactError) {
             alert('onError!');
         };
-        
         var options      = new ContactFindOptions();
         options.multiple = true;
         var fields       = [navigator.contacts.fieldType.displayName, navigator.contacts.fieldType.name];
-        
         document.getElementById('contacts').innerHTML = JSON.stringify(navigator.contacts.find(fields, onSuccess, onError, options));
 
-
+        // Camera
         
-        //local storage
+        function setOptions(srcType) {
+            var options = {
+                // Some common settings are 20, 50, and 100
+            quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI,
+                // In this app, dynamically set the picture source, Camera or photo gallery
+            sourceType: srcType,
+            encodingType: Camera.EncodingType.JPEG,
+            mediaType: Camera.MediaType.PICTURE,
+            allowEdit: true,
+            correctOrientation: true  //Corrects Android orientation quirks
+            }
+            return options;
+        }
         
         
-        //contact
-      /*//var myContact = navigator.contacts.create({"displayName": "Test User"});
-        var myContact = navigator.contacts.create();
-        //contact.displayName = contact.nickname = name;
-        contact.name = new ContactName();
-        contact.name.givenName = name;
-        contact.emails = [];
-        contact.emails[] = new ContactField('PhoneGape', email, true); //preferred
-        contact.save(this.onContactSaved, this.onContactSavedError)
-    */
+        function openFilePicker(selection) {
+            var srcType = Camera.PictureSourceType.SAVEDPHOTOALBUM;
+            var options = setOptions(srcType);
+                navigator.camera.getPicture( function cameraSuccess(imageUri) {
+                                            alert('it works');
+                }, function cameraError(error) {
+                    console.debug("Unable to obtain picture: " + error, "app");
+                }, options);
+        }
         
+        openFilePicker();
+        
+        /*
+        takePicture: function(evt) { navigator.camera.getPicture(this.onCameraSuccess, this.onCameraError, this.cameraOptions); }
+        onCameraSuccess: function(imageData) { document.querySelector('#shot').src = imageData; }
+        onCameraError: function(e) { alert("onCameraError (maybe on Simu: camera disabled!):" + e.code);}
+         */
+         
     },
 
 
